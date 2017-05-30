@@ -1,13 +1,25 @@
 module Types exposing (..)
 
+import Http
+
 
 type User = NotLoggedInUser | LoggedInUser { userName : String }
 
 
-type alias Model = { user : User }
+type alias Model = { user : User 
+                   , loginUserName : String
+                   , loginPassword : String
+                   }
+
+--type alias LoginForm = { username : String
+                       --, password : String}                   
 
 
-type Msg = Increment | Decrement
+type Msg = Login
+         | LoginResult (Result Http.Error String)
+         | Logout
+         | Username String
+         | Password String
 
 
 

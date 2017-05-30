@@ -1,12 +1,16 @@
-from flask import Flask
+from flask import Flask, jsonify
 app = Flask(__name__)
 
 
-@app.route("/")
-def serve_elm():
-    with open('./main.html') as infile:
-        return infile.read()
+@app.route("/api/user/login", methods=["GET", "POST"])
+def login(*args, **kwargs):
+    print 'Got request for login'
+    print args
+    print kwargs
+    # print request
+    response = {'username': 'Erik'}
+    return jsonify(response)
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8000)

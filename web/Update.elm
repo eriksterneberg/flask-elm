@@ -1,26 +1,32 @@
 module Update exposing (update)
 
+import Http
+import Json.Decode exposing (..)
+
 import Types exposing (..)
 
 
-
---update : Msg -> Model -> (Model, Cmd Msg)
---update msg model = case msg of
---    ArticleListMsg articleMsg ->
---        let (updatedModel, cmd) = ArticleList.update articleMsg model.articleListModel
---        in ( { model | articleListModel = updatedModel }, Cmd.map ArticleListMsg cmd )        
-
-
-update : Msg -> Model -> Model
-update msg model = model
-
-  --case msg of
-  --  Increment ->
-  --    model + 1
-
-  --  Decrement ->
-  --    model - 1
+update : Msg -> Model -> (Model, Cmd Msg)
+update msg model =
+    case msg of Username str -> ({ model | loginUserName = str}, Cmd.none)
+                Password str -> ({ model | loginPassword = str}, Cmd.none)
+                Login -> (model, login model.loginUserName model.loginPassword)
+                LoginResult (Ok username) -> ({ model | user = LoggedInUser { userName = username}},
+                                              Cmd.none)
+                LoginResult (Err _) -> (model, Cmd.none)
+                Logout -> (model, Cmd.none)
 
 
---subscriptions : Model -> Sub Msg
---subscriptions model = Sub.none
+login : String -> String -> Cmd Msg
+login username password =
+    let url = "/api/user/login"
+        request = Http.get url decodeLogin
+    in Http.send LoginResult request
+
+
+decodeLogin: Decoder String
+decodeLogin = at ["username"] string
+
+-- Or
+--decodeLogin : Decoder String
+--decodeLogin = decodeString (field "username" string)

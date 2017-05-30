@@ -3,10 +3,11 @@ module Model exposing (init)
 import Types exposing (..)
 
 
-init : Model
-init = { user = NotLoggedInUser }
+init : (Model, Cmd Msg)
+init = (initialModel, Cmd.none)
 
 
---init : (Model, Cmd Msg)
---init = (initialModel, Cmd.none)
-
+initialModel : Model
+initialModel = { user = NotLoggedInUser
+               , loginUserName = "Some name"
+               , loginPassword = "Some password"}
