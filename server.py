@@ -3,8 +3,8 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def serve_spa():
-    with open('./index.html') as infile:
+def serve_elm():
+    with open('./main.html') as infile:
         return infile.read()
 
 
